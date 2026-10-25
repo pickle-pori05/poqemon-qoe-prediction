@@ -2,7 +2,7 @@
 
 Course project for **Data Learning: From Theory to Practice** (Télécom SudParis, 2026).
 
-**Authors:** Misato Kanayama, Yasmin [family name]
+**Authors:** Misato Kanayama, Yasmin Reis
 
 We compare machine learning models that predict the **quality of experience (QoE)** of mobile video sessions.
 The target is the **MOS** (Mean Opinion Score), a rating from 1 (bad) to 5 (excellent) given by the user after each video.
