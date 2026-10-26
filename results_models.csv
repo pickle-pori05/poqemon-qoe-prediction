@@ -1,0 +1,6 @@
+Model,Combinations tried,CV RMSE (train),Test RMSE,Test MAE,Best settings
+Baseline (mean),1,1.0822734953110849,0.9634829991903101,0.7415551788134512,{}
+Ridge regression,6,0.7583466417206358,0.7132381650964383,0.5044271143239437,{'alpha': 100}
+Decision tree,40,0.7403379471579732,0.7100886288453835,0.4804359781524504,"{'max_depth': 4, 'min_samples_leaf': 40}"
+Random forest,60,0.7148081467254662,0.6891397518270298,0.4733546358524959,"{'max_depth': 8, 'max_features': 0.3, 'min_samples_leaf': 1}"
+Gradient boosting,24,0.727533677619409,0.6899921555938405,0.4778549977529513,"{'learning_rate': 0.03, 'max_depth': 4, 'n_estimators': 100, 'subsample': 0.8}"
