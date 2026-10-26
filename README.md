@@ -14,8 +14,7 @@ The target is the **MOS** (Mean Opinion Score), a rating from 1 (bad) to 5 (exce
 The data comes from the PoQeMoN QoE dataset by L. Amour, S. Souihi and A. Mellouk:
 <https://github.com/Lamyne/Poqemon-QoE-Dataset>
 
-1. Download `pokemon.csv` from that repository.
-2. Put it in the **same folder as the notebooks** (the root of this repository).
+`pokemon.csv` is included in this repository (copied from the original dataset, with credit to the authors). You can also download it from the original repository above and put it in the same folder as the notebooks.
 
 The file has 1543 video sessions, 181 users and 23 columns. It has no missing values.
 
@@ -42,13 +41,32 @@ Run the notebooks **in this order**, each one from top to bottom (*Run All*):
 | Notebook | What it does | Output |
 |---|---|---|
 | `01_data_cleaning.ipynb` | Removes errors and duplicates, applies a log to buffering time, groups rare phone models, defines the feature groups | `pokemon_clean.csv` |
-| `02_models.ipynb` *(coming soon)* | Splits the data by user, trains the baseline and the models, runs the grid search | results tables and figures |
+| `02_models.ipynb` | **First version (single split).** Splits the data by user (80% / 20%), trains a baseline and 4 models (Ridge, decision tree, random forest, gradient boosting) with grid search and 5-fold cross-validation grouped by user, runs the leakage experiment and computes feature importance (about 1–2 minutes) | `results_*.csv`, `fig_*.png` |
+| `03_models_nested_cv.ipynb` *(in progress, Yasmin)* | **Improved version.** Nested cross-validation by user (5 outer folds, grid search inside each fold) and new metrics for ordered scores (QWK, macro F1, confusion matrix) | – |
 
-No manual changes are needed between notebooks.
+No manual changes are needed between notebooks. Run `01` first: the other notebooks read `pokemon_clean.csv`.
 
 ---
 
-## 4. Main choices
+## 4. Project status
+
+| Step | Status |
+|---|---|
+| Data exploration (Google Sheets) and cleaning (`01`) | ✅ Done |
+| First model comparison with a single test split (`02`) | ✅ Done |
+| Nested cross-validation + new metrics (`03`) | 🔄 In progress |
+| Final model set: baseline, linear regression, random forest, ordinal regression | 🔄 Ordinal regression to do |
+| Report and slides | ⬜ To do |
+
+**Main findings so far**
+- Buffering time and frame rate are the most useful features.
+- Using the QoF columns lowers the error a lot, which confirms the data leakage.
+- With a single 80/20 split, the best model reaches MAE 0.469; with nested cross-validation, MAE is 0.525 ± 0.03. The single test set (37 users) was too optimistic.
+- The regression models never predict a 5 (highest prediction 4.29): they are pulled towards the average. RMSE and MAE hide this, so we add QWK, macro F1 and the confusion matrix.
+
+---
+
+## 5. Main choices
 
 | Choice | Reason |
 |---|---|
@@ -56,37 +74,49 @@ No manual changes are needed between notebooks.
 | The data is split **by user** | Each user has about 8.5 sessions. Testing on new users gives an honest score. |
 | Network type, operator and phone model are **one-hot encoded** | These codes are categories, not quantities. |
 | A **baseline** that always predicts the average MOS | Half of the scores are 4, so every model must beat this simple guess. |
+| **Nested cross-validation** by user instead of one test split | With only 37 test users, the score depended on who was in the test set. Nested CV tests every user once and gives a mean ± standard deviation. |
+| **QWK, macro F1 and confusion matrix** in addition to RMSE and MAE | MOS is an ordered score. RMSE and MAE hide that the model never predicts 5. |
+| Final models: linear regression, random forest, **ordinal regression** | Simple model, non-linear model, and a model made for ordered scores. Random forest and gradient boosting gave the same results, so we kept the simpler one. |
 
 ---
 
-## 5. Reproducibility
+## 6. Reproducibility
 
 - Random seed: **42** everywhere (`RANDOM_SEED` in each notebook).
+- Data split: `GroupShuffleSplit` by `user_id`, 20% of users in the test set (seed 42) → 1183 training sessions (144 users), 358 test sessions (37 users).
+- Cross-validation: `GroupKFold` with 5 folds by `user_id`; grid search chooses the settings with the lowest RMSE.
 - Software versions used: see `requirements.txt`.
-- Tested with Python 3.13, pandas 3.0, numpy 2.5, matplotlib 3.11, scikit-learn 1.9.
+- Tested with Python 3.13 (Anaconda): pandas 2.3, numpy 2.3, matplotlib 3.10, scikit-learn 1.7.
 
 ---
 
-## 6. Repository structure
+## 7. Repository structure
 
 ```
 .
 ├── README.md
 ├── requirements.txt
+├── .gitignore                 ← pokemon_clean.csv is not uploaded (notebook 01 recreates it)
+├── pokemon.csv                ← original data
 ├── 01_data_cleaning.ipynb
-└── pokemon.csv            ← you add this file (see section 1)
+├── 02_models.ipynb
+├── 03_models_nested_cv.ipynb  ← in progress
+├── fig_*.png                  ← figures made by notebook 02
+└── results_*.csv              ← result tables made by notebook 02
 ```
 
 ---
 
-## 7. Use of generative AI
+## 8. Use of generative AI
 
 We used **Claude (Anthropic)** to explain machine learning concepts, to suggest cleaning rules, and to draft code and this README.
 We checked the output by running every notebook from start to end, by comparing the results with our own calculations in Google Sheets (MOS counts, correlations, group averages), and by discussing each choice together.
 
+*To complete at the end of the project with each member's tools and tasks.*
+
 ---
 
-## 8. References
+## 9. References
 
 - L. Amour, S. Souihi, S. Hoceini, A. Mellouk. *Building a Large Dataset for Model-based QoE Prediction in the Mobile Environment.* ACM MSWiM 2015, pp. 313–317.
 - PoQeMoN QoE dataset: <https://github.com/Lamyne/Poqemon-QoE-Dataset>
