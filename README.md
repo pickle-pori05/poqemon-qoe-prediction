@@ -45,7 +45,7 @@ Run the notebooks **in this order**, each one from top to bottom (*Run All*):
 
 A first version of the model notebook (`02_models.ipynb`, one 80/20 split) was replaced by `03_models.ipynb`. It is still available in the Git history.
 
-No manual changes are needed between notebooks. Run `01` first: the other notebooks read `pokemon_clean.csv`.
+No manual changes are needed between notebooks. Run `01` first: notebook `03` reads `pokemon_clean.csv`.
 
 ---
 
@@ -67,7 +67,18 @@ No manual changes are needed between notebooks. Run `01` first: the other notebo
 
 ---
 
-## 5. Main choices
+## 5. Project documents
+
+| Document | Content |
+|---|---|
+| [Data exploration and progress (Google Sheets)](https://docs.google.com/spreadsheets/d/1q4nieVw0c8ZD5oobeMiUqzs70FPiD3DUAjaICpfXA_w/edit?gid=0#gid=0) | MOS distribution, correlations with MOS, average MOS by network type and operator, checks of strange values, notes on each step, and the progress tracker |
+| [Project notes (Google Docs)](https://docs.google.com/document/d/1WUGj584riyOK9JaXnVaJtsPZxpYET7iWq5yvSRIluvg/edit?tab=t.0) | Requirements, task split, decisions and meeting notes |
+
+The exploration in Google Sheets helped us understand the data. The cleaning and all model results come from the notebooks.
+
+---
+
+## 6. Main choices
 
 | Choice | Reason |
 |---|---|
@@ -81,7 +92,7 @@ No manual changes are needed between notebooks. Run `01` first: the other notebo
 
 ---
 
-## 6. Reproducibility
+## 7. Reproducibility
 
 - Random seed: **42** everywhere (`RANDOM_SEED` in each notebook).
 - Data split: `GroupShuffleSplit` by `user_id`, 20% of users in the test set (seed 42) → 1183 training sessions (144 users), 358 test sessions (37 users).
@@ -91,7 +102,7 @@ No manual changes are needed between notebooks. Run `01` first: the other notebo
 
 ---
 
-## 7. Repository structure
+## 8. Repository structure
 
 ```
 .
@@ -107,7 +118,7 @@ No manual changes are needed between notebooks. Run `01` first: the other notebo
 
 ---
 
-## 8. Use of generative AI
+## 9. Use of generative AI
 
 We used **Claude (Anthropic)** to explain machine learning concepts, to suggest cleaning rules, and to draft code and this README.
 We checked the output by running every notebook from start to end, by comparing the results with our own calculations in Google Sheets (MOS counts, correlations, group averages), and by discussing each choice together.
@@ -116,7 +127,7 @@ We checked the output by running every notebook from start to end, by comparing 
 
 ---
 
-## 9. References
+## 10. References
 
 - L. Amour, S. Souihi, S. Hoceini, A. Mellouk. *Building a Large Dataset for Model-based QoE Prediction in the Mobile Environment.* ACM MSWiM 2015, pp. 313–317.
 - PoQeMoN QoE dataset: <https://github.com/Lamyne/Poqemon-QoE-Dataset>

@@ -1,0 +1,21 @@
+Model,Fold,Best settings
+Ridge regression,0,{'alpha': 100}
+Ridge regression,1,{'alpha': 100}
+Ridge regression,2,{'alpha': 100}
+Ridge regression,3,{'alpha': 100}
+Ridge regression,4,{'alpha': 100}
+Decision tree,0,"{'max_depth': 8, 'min_samples_leaf': 20}"
+Decision tree,1,"{'max_depth': 2, 'min_samples_leaf': 1}"
+Decision tree,2,"{'max_depth': 5, 'min_samples_leaf': 40}"
+Decision tree,3,"{'max_depth': 5, 'min_samples_leaf': 10}"
+Decision tree,4,"{'max_depth': 6, 'min_samples_leaf': 40}"
+Random forest,0,"{'max_depth': 12, 'max_features': 0.3, 'min_samples_leaf': 1}"
+Random forest,1,"{'max_depth': 8, 'max_features': 0.6, 'min_samples_leaf': 5}"
+Random forest,2,"{'max_depth': 8, 'max_features': 0.6, 'min_samples_leaf': 5}"
+Random forest,3,"{'max_depth': 12, 'max_features': 0.3, 'min_samples_leaf': 5}"
+Random forest,4,"{'max_depth': 12, 'max_features': 0.3, 'min_samples_leaf': 5}"
+Gradient boosting,0,"{'learning_rate': 0.03, 'max_depth': 4, 'n_estimators': 100, 'subsample': 0.8}"
+Gradient boosting,1,"{'learning_rate': 0.03, 'max_depth': 3, 'n_estimators': 100, 'subsample': 0.8}"
+Gradient boosting,2,"{'learning_rate': 0.03, 'max_depth': 2, 'n_estimators': 100, 'subsample': 0.8}"
+Gradient boosting,3,"{'learning_rate': 0.03, 'max_depth': 4, 'n_estimators': 100, 'subsample': 0.8}"
+Gradient boosting,4,"{'learning_rate': 0.03, 'max_depth': 2, 'n_estimators': 300, 'subsample': 0.8}"
