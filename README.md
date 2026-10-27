@@ -41,8 +41,9 @@ Run the notebooks **in this order**, each one from top to bottom (*Run All*):
 | Notebook | What it does | Output |
 |---|---|---|
 | `01_data_cleaning.ipynb` | Removes errors and duplicates, applies a log to buffering time, groups rare phone models, defines the feature groups | `pokemon_clean.csv` |
-| `02_models.ipynb` | **First version (single split).** Splits the data by user (80% / 20%), trains a baseline and 4 models (Ridge, decision tree, random forest, gradient boosting) with grid search and 5-fold cross-validation grouped by user, runs the leakage experiment and computes feature importance (about 1–2 minutes) | `results_*.csv`, `fig_*.png` |
-| `03_models_nested_cv.ipynb` *(in progress, Yasmin)* | **Improved version.** Nested cross-validation by user (5 outer folds, grid search inside each fold) and new metrics for ordered scores (QWK, macro F1, confusion matrix) | – |
+| `03_models.ipynb` | Shows why a single 80/20 split is unstable, then compares the models with **nested cross-validation by user** (5 outer folds, grid search inside each fold), with RMSE, MAE, QWK, macro F1, accuracy and the confusion matrix. Also runs the leakage experiment and computes feature importance (about 20 minutes; the random forest grid search is the slowest part) | `results_*.csv`, `fig_*.png` |
+
+A first version of the model notebook (`02_models.ipynb`, one 80/20 split) was replaced by `03_models.ipynb`. It is still available in the Git history.
 
 No manual changes are needed between notebooks. Run `01` first: the other notebooks read `pokemon_clean.csv`.
 
@@ -53,15 +54,15 @@ No manual changes are needed between notebooks. Run `01` first: the other notebo
 | Step | Status |
 |---|---|
 | Data exploration (Google Sheets) and cleaning (`01`) | ✅ Done |
-| First model comparison with a single test split (`02`) | ✅ Done |
-| Nested cross-validation + new metrics (`03`) | 🔄 In progress |
+| First model comparison with a single test split (old `02`, replaced) | ✅ Done |
+| Nested cross-validation + new metrics (`03`) | ✅ Done |
 | Final model set: baseline, linear regression, random forest, ordinal regression | 🔄 Ordinal regression to do |
 | Report and slides | ⬜ To do |
 
 **Main findings so far**
 - Buffering time and frame rate are the most useful features.
 - Using the QoF columns lowers the error a lot, which confirms the data leakage.
-- With a single 80/20 split, the best model reaches MAE 0.469; with nested cross-validation, MAE is 0.525 ± 0.03. The single test set (37 users) was too optimistic.
+- With the same random forest, 10 different 80/20 splits give a test MAE from 0.493 to 0.556: the score depends on which 37 users are in the test set. With nested cross-validation, MAE is 0.525 ± 0.03.
 - The regression models never predict a 5 (highest prediction 4.29): they are pulled towards the average. RMSE and MAE hide this, so we add QWK, macro F1 and the confusion matrix.
 
 ---
@@ -99,10 +100,9 @@ No manual changes are needed between notebooks. Run `01` first: the other notebo
 ├── .gitignore                 ← pokemon_clean.csv is not uploaded (notebook 01 recreates it)
 ├── pokemon.csv                ← original data
 ├── 01_data_cleaning.ipynb
-├── 02_models.ipynb
-├── 03_models_nested_cv.ipynb  ← in progress
-├── fig_*.png                  ← figures made by notebook 02
-└── results_*.csv              ← result tables made by notebook 02
+├── 03_models.ipynb
+├── fig_*.png                  ← figures made by notebook 03
+└── results_*.csv              ← result tables made by notebook 03
 ```
 
 ---
