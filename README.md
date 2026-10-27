@@ -71,8 +71,8 @@ No manual changes are needed between notebooks. Run `01` first: notebook `03` re
 
 | Document | Content |
 |---|---|
-| [Data exploration and progress (Google Sheets)](https://docs.google.com/spreadsheets/d/1q4nieVw0c8ZD5oobeMiUqzs70FPiD3DUAjaICpfXA_w/edit?gid=0#gid=0) | MOS distribution, correlations with MOS, average MOS by network type and operator, checks of strange values, notes on each step, and the progress tracker |
-| [Project notes (Google Docs)](https://docs.google.com/document/d/1WUGj584riyOK9JaXnVaJtsPZxpYET7iWq5yvSRIluvg/edit?tab=t.0) | Requirements, task split, decisions and meeting notes |
+| [Data exploration and progress (Google Sheets)](https://docs.google.com/spreadsheets/d/1q4nieVw0c8ZD5oobeMiUqzs70FPiD3DUAjaICpfXA_w/edit?gid=0#gid=0) | Tasks, weights, person in charge and status of each part of the project. |
+| [Project notes (Google Docs)](https://docs.google.com/document/d/1WUGj584riyOK9JaXnVaJtsPZxpYET7iWq5yvSRIluvg/edit?tab=t.0) | Requirements, task split, decisions. |
 
 The exploration in Google Sheets helped us understand the data. The cleaning and all model results come from the notebooks.
 
